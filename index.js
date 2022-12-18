@@ -8,28 +8,32 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 
-const run = async function() {
-  let animals = db.collection("animals");
+app.get('/animals', async (req, res) => {
+    let animals = db.collection("animals");
 
-  // create an item in collection with key "leo"
-  let leo = await animals.set("leo", {
-    type: "cat",
-    color: "orange"
-  });
+    // create an item in collection with key "leo"
+    let leo = await animals.set("leo", {
+      type: "cat",
+      color: "orange"
+    });
+  
+    // get an item at key "leo" from collection animals
+    let item = await animals.get("leo");
+    console.log(item);
+    res.send(item);
+});
 
-  // get an item at key "leo" from collection animals
-  let item = await animals.get("leo");
-  console.log(item);
-
-  let users = db.collection("users");
-
-  await users.item("mike").fragment("work").set({
-    company: "cyclic"
-  });
-
-  let mikes_work = await users.item("mike").fragment("work").get();
-};
-run();
+app.get('/users', async (req, res) => {
+    let users = db.collection("users");
+  
+    await users.item("mike").fragment("work").set({
+      company: "cyclic"
+    });
+  
+    let mikes_work = await users.item("mike").fragment("work").get();
+    console.log(mikes_work);
+    res.send(mikes_work);
+});
 
 // // curl -i https://splendid-rose-snapper.cyclic.app/myFile.txt
 // app.get('*', async (req,res) => {
