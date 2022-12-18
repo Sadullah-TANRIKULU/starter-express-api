@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json())
 
-// curl -i https://some-app.cyclic.app/myFile.txt
+// curl -i https://splendid-rose-snapper.cyclic.app/myFile.txt
 app.get('*', async (req,res) => {
   let filename = req.path.slice(1)
 
@@ -30,7 +30,7 @@ app.get('*', async (req,res) => {
 })
 
 
-// curl -i -XPUT --data '{"k1":"value 1", "k2": "value 2"}' -H 'Content-type: application/json' https://some-app.cyclic.app/myFile.txt
+// curl -i -XPUT --data '{"k1":"value 1", "k2": "value 2"}' -H 'Content-type: application/json' https://splendid-rose-snapper.cyclic.app/myFile.txt
 app.put('*', async (req,res) => {
   let filename = req.path.slice(1)
 
@@ -46,7 +46,7 @@ app.put('*', async (req,res) => {
   res.send('ok').end()
 })
 
-// curl -i -XDELETE https://some-app.cyclic.app/myFile.txt
+// curl -i -XDELETE https://splendid-rose-snapper.cyclic.app/myFile.txt
 app.delete('*', async (req,res) => {
   let filename = req.path.slice(1)
 

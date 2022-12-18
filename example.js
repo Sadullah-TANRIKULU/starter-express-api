@@ -1,7 +1,8 @@
 // example.js
 
-const CyclicDB = require('cyclic-dynamodb')
-const db = CyclicDB(splendid-rose-snapperCyclicDB) // find it on the Database/Storage tab
+const CyclicDb = require("@cyclic.sh/dynamodb")
+const db = CyclicDb("splendid-rose-snapperCyclicDB") // find it on the Database/Storage tab
+
 
 const run = async function(){
     let animals = db.collection('animals')
