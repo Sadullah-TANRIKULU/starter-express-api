@@ -72,7 +72,7 @@ app.listen(port, () => {
   console.log(`index.js listening at http://localhost:${port}`)
 })
 
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
-})
+// app.all('/', (req, res) => {
+//     console.log("Just got a request!")
+//     res.send('Yo!')
+// })
