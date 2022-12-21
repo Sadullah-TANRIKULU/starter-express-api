@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 // const AWS = require("aws-sdk");
 // const s3 = new AWS.S3();
 const CyclicDb = require("@cyclic.sh/dynamodb");
 const db = CyclicDb("splendid-rose-snapperCyclicDB"); // find it on the Database/Storage tab
 const bodyParser = require("body-parser");
-
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // create or update
 app.post("/:col/:key", async (req, res) => {
   console.log(req.body);
