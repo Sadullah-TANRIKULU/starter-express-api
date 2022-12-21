@@ -7,91 +7,41 @@ const db = CyclicDb("splendid-rose-snapperCyclicDB"); // find it on the Database
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
+// create or update
+app.post("/:col/:key", async (req, res) => {
+  console.log(req.body);
 
-app.get('/animals', async (req, res) => {
-    let animals = db.collection("animals");
-
-    // create an item in collection with key "leo"
-    let leo = await animals.set("leo", {
-      type: "cat",
-      color: "orange"
-    });
+  const col = req.params.col;
+  const key = req.params.key;
   
-    // get an item at key "leo" from collection animals
-    let item = await animals.get("leo");
-    console.log(item);
-    res.send(item);
+  const item = await db.collection(col).set(key, req.body);
+  console.log(item);
+  res.json(item).end();
 });
-
-app.get('/users', async (req, res) => {
-    let users = db.collection("users");
+// get full list
+app.get("/:col", async (req, res) => {
+  const col = req.params.col;
   
-    await users.item("mike").fragment("work").set({
-      company: "cyclic"
-    });
-  
-    let mikes_work = await users.item("mike").fragment("work").get();
-    console.log(mikes_work);
-    res.send(mikes_work);
+  const item = await db.collection(col).list();
+  console.log(item);
+  res.json(item).end();
 });
+// get one
+app.get("/:col/:key", async (req, res) => {
+  const col = req.params.col;
+  const key = req.params.key;
 
-// // curl -i https://splendid-rose-snapper.cyclic.app/myFile.txt
-// app.get('*', async (req,res) => {
-//   let filename = req.path.slice(1)
+  const item = await db.collection(col).get(key);
+  res.json(item).end();
+})
+// delete
+app.delete('/:col/:key', async (req, res) => {
+  const col = req.params.col;
+  const key = req.params.key;
 
-//   try {
-//     let s3File = await s3.getObject({
-//       Bucket: process.env.BUCKET,
-//       Key: filename,
-//     }).promise()
-
-//     res.set('Content-type', s3File.ContentType)
-//     res.send(s3File.Body.toString()).end()
-//   } catch (error) {
-//     if (error.code === 'NoSuchKey') {
-//       console.log(`No such key ${filename}`)
-//       res.sendStatus(404).end()
-//     } else {
-//       console.log(error)
-//       res.sendStatus(500).end()
-//     }
-//   }
-// })
-
-// // curl -i -XPUT --data '{"k1":"value 1", "k2": "value 2"}' -H 'Content-type: application/json' https://splendid-rose-snapper.cyclic.app/myFile.txt
-// app.put('*', async (req,res) => {
-//   let filename = req.path.slice(1)
-
-//   console.log(typeof req.body)
-
-//   await s3.putObject({
-//     Body: JSON.stringify(req.body),
-//     Bucket: process.env.BUCKET,
-//     Key: filename,
-//   }).promise()
-
-//   res.set('Content-type', 'text/plain')
-//   res.send('ok').end()
-// })
-
-// // curl -i -XDELETE https://splendid-rose-snapper.cyclic.app/myFile.txt
-// app.delete('*', async (req,res) => {
-//   let filename = req.path.slice(1)
-
-//   await s3.deleteObject({
-//     Bucket: process.env.BUCKET,
-//     Key: filename,
-//   }).promise()
-
-//   res.set('Content-type', 'text/plain')
-//   res.send('ok').end()
-// })
-
-// // /////////////////////////////////////////////////////////////////////////////
-// // Catch all handler for all other request.
-// app.use('*', (req,res) => {
-//   res.sendStatus(404).end()
-// })
+  const item = await db.collection(col).delete(key);
+  res.json(item).end();
+})
 
 // /////////////////////////////////////////////////////////////////////////////
 // Start the server
